@@ -7,6 +7,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script>
+      // Shim process.env for libraries that expect it (like geminiService)
+      window.process = {
+        env: {
+          NODE_ENV: 'development',
+          API_KEY: '' 
+        }
+      };
+
       tailwind.config = {
         theme: {
           extend: {
@@ -20,6 +28,16 @@
               'accent-cyan': '#22d3ee',
               'accent-green': '#4ade80',
               'accent-purple': '#c084fc',
+            },
+            animation: {
+              'spin-slow': 'spin 15s linear infinite',
+              'float': 'float 6s ease-in-out infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              }
             }
           }
         }
@@ -59,7 +77,8 @@
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
     "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
-    "mermaid": "https://esm.sh/mermaid@10.9.0"
+    "mermaid": "https://esm.sh/mermaid@10.9.0",
+    "framer-motion": "https://esm.sh/framer-motion@11.0.8?external=react,react-dom"
   }
 }
 </script>
