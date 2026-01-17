@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import mermaid from 'mermaid';
 
 interface MermaidDiagramProps {
   chart: string;
@@ -7,6 +6,8 @@ interface MermaidDiagramProps {
 
 export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const mermaidRef = useRef<typeof import('mermaid') | null>(null);
+  const initializedRef = useRef(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isRendered, setIsRendered] = useState(false);
   const uniqueId = useRef(`mermaid-${Math.random().toString(36).substr(2, 9)}`);
@@ -32,34 +33,48 @@ export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
 
   // 2. Render the Chart (Hidden initially)
   useEffect(() => {
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: 'base', // Use base to allow easier custom styling overrides
-      securityLevel: 'loose',
-      fontFamily: 'JetBrains Mono',
-      themeVariables: {
-        primaryColor: '#0f172a', // terminal-bg
-        primaryTextColor: '#e2e8f0', // slate-200
-        primaryBorderColor: '#334155', // slate-700
-        lineColor: '#22d3ee', // accent-cyan (The drawing lines)
-        secondaryColor: '#1e293b', // terminal-header
-        tertiaryColor: '#0f172a',
-      }
-    });
+    let cancelled = false;
 
     const renderChart = async () => {
       if (!containerRef.current) return;
 
       try {
+        if (!mermaidRef.current) {
+          const mod = await import('mermaid');
+          const mermaidModule = (mod.default ?? mod) as typeof import('mermaid');
+          mermaidRef.current = mermaidModule;
+        }
+
+        const mermaid = mermaidRef.current;
+        if (!mermaid || cancelled) return;
+
+        if (!initializedRef.current) {
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: 'base',
+            securityLevel: 'loose',
+            fontFamily: 'JetBrains Mono',
+            themeVariables: {
+              primaryColor: '#0f172a',
+              primaryTextColor: '#e2e8f0',
+              primaryBorderColor: '#334155',
+              lineColor: '#22d3ee',
+              secondaryColor: '#1e293b',
+              tertiaryColor: '#0f172a',
+            }
+          });
+          initializedRef.current = true;
+        }
+
         // Clear previous content
         containerRef.current.innerHTML = '';
-        
+
         // Render SVG
         const { svg } = await mermaid.render(uniqueId.current, chart);
-        
-        if (containerRef.current) {
+
+        if (containerRef.current && !cancelled) {
           containerRef.current.innerHTML = svg;
-          
+
           // PREPARE FOR ANIMATION
           const svgEl = containerRef.current.querySelector('svg');
           if (svgEl) {
@@ -108,13 +123,17 @@ export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
         }
       } catch (error) {
         console.error('Mermaid render error:', error);
-        if (containerRef.current) {
+        if (containerRef.current && !cancelled) {
           containerRef.current.innerHTML = '<div class="text-red-500 font-mono text-sm p-4">// Error rendering architectural diagram</div>';
         }
       }
     };
 
     renderChart();
+
+    return () => {
+      cancelled = true;
+    };
   }, [chart]);
 
   // 3. Trigger Animation when Visible AND Rendered
