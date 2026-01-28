@@ -3,9 +3,11 @@ import { Project, Experience, Technology, Language } from "../types";
 
 const apiKey = process.env.API_KEY || '';
 
-// Initialize carefully to avoid crashes if env is missing in some environments,
-// though we expect it to be present.
-const ai = new GoogleGenAI({ apiKey });
+// 延遲初始化，避免在沒有 API key 時直接讓整個前端 bundle 崩潰
+let ai: GoogleGenAI | null = null;
+if (apiKey) {
+  ai = new GoogleGenAI({ apiKey });
+}
 
 export const chatWithPortfolio = async (
   history: { role: string; parts: { text: string }[] }[],
@@ -13,7 +15,11 @@ export const chatWithPortfolio = async (
   contextData: { projects: Project[], experience: Experience[], skills: Technology[] },
   lang: Language
 ): Promise<string> => {
-  if (!apiKey) return lang === 'zh' ? "錯誤：缺少 API 金鑰。" : "Error: API Key is missing. I cannot process your request.";
+  if (!apiKey || !ai) {
+    return lang === 'zh'
+      ? "錯誤：缺少 API 金鑰，暫時無法啟動 Gemini 聊天，但你仍然可以瀏覽作品集內容。"
+      : "Error: API Key is missing, so the Gemini chat is temporarily disabled. You can still browse the portfolio content.";
+  }
 
   const langContext = lang === 'zh' 
     ? "You must reply in Traditional Chinese (Taiwan standard)." 
