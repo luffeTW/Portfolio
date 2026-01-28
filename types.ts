@@ -2,7 +2,7 @@ export type Language = 'en' | 'zh';
 
 export interface Technology {
   name: string;
-  category: 'Frontend' | 'Backend' | 'DevOps' | 'AI' | 'Tools';
+  category: 'Frontend' | 'Backend' | 'DevOps' | 'AI' | 'Tools' | 'Database';
   practical: number; // 0-100: Practical Experience / Execution
   theory: number;    // 0-100: Conceptual Understanding / Theory
 }

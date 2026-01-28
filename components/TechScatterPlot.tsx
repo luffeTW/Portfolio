@@ -10,6 +10,8 @@ interface TechScatterPlotProps {
     high: string;
     low: string;
     legend: string;
+    xDesc?: string;
+    yDesc?: string;
   };
   categories: Record<string, string>;
 }
@@ -32,6 +34,7 @@ export const TechScatterPlot: React.FC<TechScatterPlotProps> = ({ skills, labels
     DevOps: '#4ade80',   // accent-green
     AI: '#facc15',       // yellow-400
     Tools: '#94a3b8',    // slate-400
+    Database: '#60a5fa', // blue-400
   };
 
   const toggleCategory = (cat: string) => {
@@ -226,12 +229,12 @@ export const TechScatterPlot: React.FC<TechScatterPlotProps> = ({ skills, labels
 
       <div className="mt-4 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-4 text-xs font-mono text-slate-500 border-t border-slate-800 pt-6">
         <div>
-           <span className="text-slate-400 font-bold block mb-1">X-Axis ({labels.xAxis})</span>
-           Measures lines of code written, systems deployed, and production fires fought.
+          <span className="text-slate-400 font-bold block mb-1">X-Axis ({labels.xAxis})</span>
+          {labels.xDesc || 'Measures lines of code written, systems deployed, and production fires fought.'}
         </div>
         <div>
-           <span className="text-slate-400 font-bold block mb-1">Y-Axis ({labels.yAxis})</span>
-           Measures depth of understanding, from API consumer to internal implementation details.
+          <span className="text-slate-400 font-bold block mb-1">Y-Axis ({labels.yAxis})</span>
+          {labels.yDesc || 'Measures depth of understanding, from API consumer to internal implementation details.'}
         </div>
       </div>
     </div>

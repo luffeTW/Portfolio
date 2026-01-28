@@ -14,7 +14,7 @@ import { Language } from './types';
 const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [lang, setLang] = useState<Language>('en');
+  const [lang, setLang] = useState<Language>('zh');
 
   const content = CONTENT[lang];
 
@@ -107,8 +107,8 @@ const App: React.FC = () => {
         <aside className="hidden md:flex w-64 flex-col border-r border-slate-800/50 p-6 sticky top-0 h-screen overflow-y-auto bg-slate-950/30 backdrop-blur-sm">
           <div className="mb-8">
             <div className="w-12 h-12 rounded bg-gradient-to-br from-accent-cyan to-blue-600 mb-4 opacity-80 shadow-[0_0_15px_rgba(34,211,238,0.3)]"></div>
-            <h1 className="text-xl font-bold text-white tracking-tight">Alex Dev</h1>
-            <p className="text-sm text-slate-500 font-mono">Senior Systems Engineer</p>
+            <h1 className="text-xl font-bold text-white tracking-tight">後端工程師</h1>
+            <p className="text-sm text-slate-500 font-mono">.NET／ASP.NET／資料庫</p>
           </div>
 
           <div className="mb-8">
