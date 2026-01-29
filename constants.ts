@@ -100,7 +100,40 @@ const PROJECTS_EN: Project[] = [
       'PDF/Excel exports with multi-language support',
       'Email notifications triggered by workflow states',
       'Refactoring legacy structure to improve maintainability'
-    ]
+    ],
+    mermaidCode: `
+      flowchart TB
+        subgraph Frontend_Framework[Vite + React]
+          AdminUI[Frontend_Admin<br/>Admin Portal]
+          ApplySite[Frontend_Apply<br/>Application Portal]
+          PublicSite[Frontend_Official<br/>Public Website]
+        end
+
+        subgraph Backend_DotNet[Backend .NET 8]
+          AdminApi[AdminApi<br/>CMS Admin API]
+          ClientApi[ClientApi<br/>Public / Client API]
+          Domain[Domain<br/>EF Models + Services]
+          AdminApi --> Domain
+          ClientApi --> Domain
+        end
+
+        subgraph Backend_Node[Backend Node.js]
+          ApplyApi[ApplyAPI<br/>Application API]
+        end 
+
+        AdminUI -->|HTTP + RESTful| AdminApi
+        PublicSite -->|HTTP| ClientApi
+        ApplySite -->|HTTP| ApplyApi
+
+        DB[(SQL Server<br/>Database)]
+        Domain --> DB
+        ApplyApi --> DB
+
+        Uploads[(Static Files<br/>Static Assets)]
+        AdminApi --> Uploads
+        ClientApi --> Uploads
+        ApplyApi --> Uploads
+      `
   },
   {
     id: 'proj_elevator',
@@ -156,7 +189,41 @@ const PROJECTS_ZH: Project[] = [
       'PDF／Excel 報表匯出與多語系支援',
       '依流程狀態觸發 Email 通知',
       '既有系統完整重構與可維護性提升'
-    ]
+    ],
+    mermaidCode: `
+      flowchart TB
+        subgraph Frontend Framework[Vite + React]
+          AdminUI[Frontend_Admin<br/>管理端]
+          ApplySite[Frontend_Apply<br/>申請端]
+          PublicSite[Frontend_Offical<br/>官網]
+        end
+
+        subgraph Backend[Backend .NET 8]
+          AdminApi[AdminApi<br/>CMS 管理後台 API]
+          ClientApi[ClientApi<br/>對外/前台 API]
+          Domain[Domain<br/>EF Models + Services]
+          AdminApi --> Domain
+          ClientApi --> Domain
+        end
+
+        subgraph Backend2[Backend Node JS]
+          ApplyApi[ApplyAPI<br/>申請端 API]
+        end 
+
+
+        AdminUI -->|HTTP + Restful| AdminApi
+        PublicSite -->|HTTP| ClientApi
+        ApplySite -->|HTTP| ApplyApi
+
+        DB[(SQL Server<br/>資料庫)]
+        Domain --> DB
+        ApplyApi --> DB
+
+        Uploads[(Static Files<br/>靜態檔案)]
+        AdminApi --> Uploads
+        ClientApi --> Uploads
+        ApplyApi --> Uploads
+      `
   },
   {
     id: 'proj_elevator',
