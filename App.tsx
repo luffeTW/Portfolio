@@ -147,11 +147,15 @@ const App: React.FC = () => {
 
           <div className="mt-auto pt-6 border-t border-slate-800">
              <div className="flex gap-4">
-               {[Github, Linkedin, Twitter, Mail].map((Icon, i) => (
-                   <a key={i} href="#" className="text-slate-500 hover:text-accent-cyan transition-all hover:scale-125 transform duration-300 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]">
-                     <Icon size={20} />
-                   </a>
-               ))}
+               {[
+                { Icon: Github, url: 'https://github.com/luffeTW' },
+                { Icon: Linkedin, url: 'https://www.linkedin.com/in/%E4%BD%91%E5%98%89-%E7%8E%8B/' },
+                { Icon: Mail, url: 'mailto:a39007878@gmail.com' }
+                  ].map(({ Icon, url }, i) => (
+                    <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-accent-cyan transition-all hover:scale-125 transform duration-300 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]">
+                      <Icon size={20} />
+                    </a>
+                ))}
              </div>
           </div>
         </aside>

@@ -146,7 +146,51 @@ const PROJECTS_EN: Project[] = [
       'Data correctness and consistency across inspection flows',
       'High-volume import/export performance and error handling',
       'Maintaining legacy framework stability and security'
-    ]
+    ],
+    mermaidCode: `
+      flowchart LR
+
+        U1[Association]
+        U2[Administrator]
+        U3[Reviewer App]
+
+        subgraph APP[Mobile Application Gradle Build]
+          U3
+        end
+
+        subgraph ASPX[Web Service ASP.NET Web Forms]
+          U1
+          U2
+        end
+
+        subgraph SYS[Web System ASP.NET Framework]
+          WEB[Page Rendering and Form Handling]
+          API[Mobile Data Exchange API]
+          CORE[Business Logic and Rule Engine]
+        end
+
+        DB[(MySQL Database)]
+
+        subgraph EXT[External Services]
+          SSO[Third Party Authentication]
+          GS[Google Sheets Drive Integration]
+          MAIL[Email Notification Service]
+          FILE[File Storage NAS]
+        end
+
+        U1 --> WEB
+        U2 --> WEB
+        U3 --> API
+
+        WEB --> CORE
+        API --> CORE
+
+        CORE --> DB
+        CORE --> SSO
+        CORE --> GS
+        CORE --> MAIL
+        CORE --> FILE
+        `
   },
   {
     id: 'proj_travel_b2b',
@@ -172,7 +216,69 @@ const PROJECTS_EN: Project[] = [
       'Device communication and recovery mechanisms',
       'Stability of frontend–backend interaction flows',
       'Handling environment differences during deployment'
-    ]
+    ],
+    mermaidCode: `
+          flowchart TB
+
+      %% User
+      USER[User Browser]
+
+      %% Kiosk System
+      subgraph PC["Kiosk Desktop System"]
+
+        subgraph FE["Frontend"]
+          F1[UI Rendering Bootstrap]
+          F2[Async Requests AJAX JavaScript]
+        end
+
+        subgraph BE["Backend .NET Core"]
+          B1[REST API]
+          B2[Business Logic Order Payment State Management]
+          B3[Device Control Service]
+          B4[Third Party Integration Payment Invoice APIs]
+        end
+
+        DB[(PostgreSQL Database)]
+      end
+
+      %% Edge Layer
+      subgraph EDGE["Edge Device Gateway"]
+        G1[Command Protocol Adapter]
+        MCU[MCU Controller IO Scheduling]
+      end
+
+      %% Hardware
+      subgraph DEV["Peripheral Devices"]
+        H1[Bill Validator]
+        H2[Coin Hopper and Change]
+        H3[Receipt Printer]
+        H4[Power Relay]
+      end
+
+      %% External Services
+      subgraph EXT["External Services"]
+        P1[Electronic Payment LinePay Credit Card QRPay]
+        P2[E Invoice API]
+      end
+
+      %% Flow
+      USER --> F1
+      F1 --> F2
+      F2 --> B1
+      B1 --> B2
+      B2 --> DB
+      B2 --> B3
+      B2 --> B4
+      B3 --> G1
+      G1 --> MCU
+      MCU --> H1
+      MCU --> H2
+      MCU --> H3
+      MCU --> H4
+      B4 --> P1
+      B4 --> P2
+
+    `
   }
 ];
 
@@ -236,7 +342,48 @@ const PROJECTS_ZH: Project[] = [
       '稽查、抽樣流程的資料正確性與一致性',
       '大量報表匯入／匯出效能與錯誤處理',
       '維護舊版框架的穩定性與安全性'
-    ]
+    ],
+    mermaidCode: `
+      flowchart LR
+        U1[協會]
+        U2[管理者]
+        U3[審核者 App]
+
+        subgraph APP[APP行動裝置 Gradle APP]
+        U3[審核 App]
+        end
+
+        subgraph ASPX[網頁服務 ASP.NET Web Form ]
+        U1[協會]
+        U2[管理者]
+        end
+
+        subgraph SYS[網站系統 ASP.NET Framework]
+          WEB[頁面瀏覽與表單操作]
+          API[行動裝置資料交換 API]
+          CORE[商業流程處理與規則判斷]
+        end
+        DB[(資料庫 MySQL)]
+        subgraph EXT[外部服務]
+          SSO[第三方登入]
+          GS[Google 文件整合]
+          MAIL[郵件通知]
+          FILE[檔案儲存 NAS]
+        end
+
+        U1 --> WEB
+        U2 --> WEB
+        U3 --> API
+
+        WEB --> CORE
+        API --> CORE
+
+        CORE --> DB
+        CORE --> SSO
+        CORE --> GS
+        CORE --> MAIL
+        CORE --> FILE
+      `
   },
   {
     id: 'proj_travel_b2b',
@@ -262,7 +409,48 @@ const PROJECTS_ZH: Project[] = [
       '裝置溝通與錯誤復原機制',
       '前後端互動流程的穩定性',
       '實際環境部署的環境差異處理'
-    ]
+    ],
+      mermaidCode: `
+      flowchart TB
+      subgraph FE["Frontend 前端網站"]
+              F1["畫面呈現與操作<br>Bootstrap UI"]
+              F2["非同步請求<br>AJAX / JavaScript"]
+        end
+      subgraph BE["Backend 後端服務 .NET Core"]
+              B1["REST API 介面"]
+              B2["商業流程處理<br>訂單 / 付款 / 狀態管理<br>Serivce Core Process<br>Order/Payment/Management"]
+              B3["設備控制服務<br>Device Control Service"]
+              B4["第三方整合服務<br>Payment / Invoice APIs"]
+        end
+      subgraph PC["Kiosk Desktop自動服務機"]
+              FE
+              BE
+              DB[("PostgreSQL<br>交易與紀錄儲存")]
+        end
+      subgraph EDGE["Edge Device Gateway 邊緣設備層"]
+              G1["指令協定轉換<br>Command Protocol Handler"]
+              MCU["MCU 控制核心<br>硬體 I O 調度"]
+        end
+      subgraph DEV["Peripheral Devices 實體裝置"]
+              H1["紙鈔辨識"]
+              H2["投幣與找零"]
+              H3["收據列印"]
+              H4["電源控制"]
+        end
+      subgraph EXT["External Business Services 第三方商業服務"]
+              P1["電子支付<br>LinePay / Credit Card / QRPay"]
+              P2["電子發票 API"]
+        end
+          USER["使用者<br>Browser 操作"] --> F1
+          F1 --> F2
+          F2 --> B1
+          B1 --> B2
+          B2 --> DB & B3 & B4
+          B3 --> G1
+          G1 --> MCU
+          MCU --> H1 & H2 & H3 & H4
+          B4 --> P1 & P2
+      `
   }
 ];
 
